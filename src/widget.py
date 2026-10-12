@@ -21,7 +21,9 @@ def mask_account_card(card_info: str) -> str:
 
     number = parts[-1]
     name = " ".join(parts[:-1])
-
+    # В названии карты/счета не может быть цифр: 'Visa 123' — некорректно
+    if not re.fullmatch(r"[А-Яа-яЁёA-Za-z -]+", name):
+        return "Некорректный ввод"
     if re.fullmatch(r"\d{16}", number):
         return f"{name} {get_mask_card_number(number)}"
     if re.fullmatch(r"\d{20}", number):
