@@ -35,4 +35,8 @@ def sort_by_date(
         Новый список словарей, отсортированный по ключу date.
 
     """
-    return sorted(list_of_dicts, key=lambda item: item["date"], reverse=reverse)
+    return sorted(
+        list_of_dicts,
+        key=lambda item: item["date"],
+        reverse=reverse,
+    )
