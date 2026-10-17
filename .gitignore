@@ -1,10 +1,5 @@
 __pycache__/
 *.py[cod]
-*.pyc
-.idea/
-venv/
 .venv/
-env/
-.env
-.DS_Store
-check.py
+venv/
+.idea/
