@@ -1,12 +1,12 @@
 import re
 from datetime import datetime
 
-from src.masks import get_mask_card_number, get_mask_account
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(card_info: str) -> str:
     """Обрабатывает информацию о картах и счетах.
-
+1
     'Visa Platinum 7000792289606361' -> 'Visa Platinum 7000 79** **** 6361'
     'Счет 73654108430135874305' -> 'Счет **4305'
     """

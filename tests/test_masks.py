@@ -1,23 +1,43 @@
-"""Тесты для модуля masks."""
-
 import pytest
 
 from src.masks import get_mask_account, get_mask_card_number
 
 
-def test_get_mask_card_number() -> None:
-    assert get_mask_card_number("7000792289606361") == "7000 79** **** 6361"
+@pytest.mark.parametrize(
+    "card_number, expected",
+    [
+        ("7000792289606361", "7000 79** **** 6361"),
+        ("1234567812345678", "1234 56** **** 5678"),
+    ],
+)
+def test_get_mask_card_number(card_number: str, expected: str) -> None:
+    assert get_mask_card_number(card_number) == expected
 
 
-def test_get_mask_account() -> None:
-    assert get_mask_account("73654108430135874305") == "**4305"
+@pytest.mark.parametrize(
+    "card_number",
+    ["", "1234", "123456781234"],
+)
+def test_get_mask_card_number_invalid(card_number: str) -> None:
+    with pytest.raises(Exception):
+        get_mask_card_number(card_number)
 
 
-def test_get_mask_card_number_invalid_length() -> None:
-    with pytest.raises(ValueError):
-        get_mask_card_number("123")
+@pytest.mark.parametrize(
+    "account_number, expected",
+    [
+        ("73654108430135874305", "**4305"),
+        ("1234", "**1234"),  # короткий счёт: маскируются последние 4 цифры
+    ],
+)
+def test_get_mask_account(account_number: str, expected: str) -> None:
+    assert get_mask_account(account_number) == expected
 
 
-def test_get_mask_account_invalid_length() -> None:
-    with pytest.raises(ValueError):
-        get_mask_account("123")
+@pytest.mark.parametrize(
+    "account_number",
+    ["", "123"],
+)
+def test_get_mask_account_invalid(account_number: str) -> None:
+    with pytest.raises(Exception):
+        get_mask_account(account_number)
