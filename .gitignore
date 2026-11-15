@@ -1,10 +1,5 @@
-__pycache__/
-*.py[cod]
-*.pyc
 .idea/
+__pycache__/
 venv/
-.venv/
-env/
-.env
-.DS_Store
-check.py
+htmlcov/
+.coverage
