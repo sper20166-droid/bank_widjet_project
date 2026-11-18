@@ -25,3 +25,23 @@
 
     for card_number in card_number_generator(1, 5):
         print(card_number)
+
+## Новый функционал
+
+Добавлен декоратор log (src/decorators.py).
+
+Декоратор логирует работу функции:
+- при успешном выполнении — имя функции;
+- при ошибке — имя функции, тип ошибки и входные параметры;
+- если задан аргумент filename — лог пишется в файл;
+- если не задан — лог выводится в консоль.
+
+Пример использования:
+
+@log(filename="mylog.txt")
+def my_function(x, y):
+    return x + y
+
+Запуск тестов с отчётом покрытия:
+
+pytest --cov=src --cov-report=html --cov-report=term
