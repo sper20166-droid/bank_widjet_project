@@ -12,3 +12,9 @@ check.py
 .mypy_cache/
 htmlcov/
 .coverage
+logs/
+transactions.csv
+transactions_excel.xlsx
+*.xlsx
+*.csv
+

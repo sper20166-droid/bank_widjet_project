@@ -15,7 +15,7 @@ def get_transaction_amount(transaction: Dict[str, Any]) -> float:
     """Возвращает сумму транзакции в рублях.
 
     Если валюта операции — USD или EUR, происходит обращение
-    к Exchange Rates Data API для конвертации в рубли.
+    к Exchange Rates Data API для конвертации в рублях.
 
     Args:
         transaction: словарь с данными о транзакции.
@@ -37,11 +37,10 @@ def get_transaction_amount(transaction: Dict[str, Any]) -> float:
     if currency in ("USD", "EUR"):
         response = requests.get(
             API_URL,
-            params={"base": currency, "symbols": "RUB"},
-            headers={"apikey": API_KEY},
+            params={"from": currency, "to": "RUB"},
+            headers={"apikey": API_KEY or ""},
         )
         response.raise_for_status()
-        rate = response.json()["rates"]["RUB"]
-        return round(amount * rate, 2)
-
+        rate = float(response.json()["rates"]["RUB"])
+        return amount * rate
     raise ValueError(f"Неизвестная валюта: {currency}")

@@ -9,6 +9,8 @@ logger.setLevel(logging.DEBUG)
 log_path = os.path.join(
     os.path.dirname(os.path.dirname(__file__)), "logs", "utils.log"
 )
+os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
 file_handler = logging.FileHandler(log_path, mode="w", encoding="utf-8")
 file_formatter = logging.Formatter(
     "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
