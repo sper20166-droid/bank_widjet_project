@@ -8,3 +8,7 @@ env/
 .env
 .DS_Store
 check.py
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
