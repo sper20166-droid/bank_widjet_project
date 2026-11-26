@@ -6,6 +6,7 @@ from typing import Any
 
 from openpyxl import load_workbook
 
+from src.masks import mask_from_to
 from src.search import process_bank_search
 
 
@@ -47,7 +48,7 @@ def load_transactions(filename: str, file_type: str) -> list[dict]:
     elif file_type == "2":
         print("Для обработки выбран CSV-файл.")
         with open(filename, encoding="utf-8", newline="") as file:
-            return list(csv.DictReader(file))
+            return list(csv.DictReader(file, delimiter=";"))
     print("Для обработки выбран XLSX-файл.")
     return load_xlsx_transactions(filename)
 
@@ -115,8 +116,8 @@ def print_transaction(transaction: dict) -> None:
         transaction: словарь с данными о транзакции.
     """
     description = transaction.get("description", "Нет описания")
-    from_info = transaction.get("from", "")
-    to_info = transaction.get("to", "")
+    from_info = mask_from_to(transaction.get("from", ""))
+    to_info = mask_from_to(transaction.get("to", ""))
     amount, currency = get_amount_and_currency(transaction)
     print(f"{format_date(str(transaction.get('date', '')))} {description}")
     if from_info or to_info:
