@@ -1,4 +1,19 @@
 """Функции маскировки номеров банковских карт и счетов."""
+import logging
+import os
+
+logger = logging.getLogger("masks")
+logger.setLevel(logging.DEBUG)
+
+log_path = os.path.join(
+    os.path.dirname(os.path.dirname(__file__)), "logs", "masks.log"
+)
+file_handler = logging.FileHandler(log_path, mode="w", encoding="utf-8")
+file_formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
 
 
 def get_mask_card_number(card_number: str) -> str:
@@ -36,3 +51,26 @@ def get_mask_account(account_number: str) -> str:
         raise ValueError("Номер счета должен состоять минимум из 4 цифр")
 
     return f"**{account_number[-4:]}"
+
+
+def mask_from_to(value: str) -> str:
+    """Маскирует поле 'От' или 'Кому' целиком.
+
+    Понимает строки вида 'Visa Platinum 1959232722494097'
+    и 'Счет 40817810009102284430'.
+
+    Args:
+        value: строка с названием и номером карты или счёта.
+
+    Returns:
+        Строка с замаскированным номером.
+    """
+    if not value:
+        return ""
+    parts = value.rsplit(" ", 1)
+    number = parts[-1]
+    if number.isdigit():
+        if len(number) == 16:
+            return f"{parts[0]} {get_mask_card_number(number)}"
+        return f"{parts[0]} {get_mask_account(number)}"
+    return value

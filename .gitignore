@@ -8,3 +8,13 @@ env/
 .env
 .DS_Store
 check.py
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+logs/
+transactions.csv
+transactions_excel.xlsx
+*.xlsx
+*.csv
+
